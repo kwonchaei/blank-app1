@@ -1,46 +1,31 @@
-import streamlit as st
 
 import streamlit as st
 
-st.title("Streamlit 요소 데모")
+st.title("나의 수학실력은 얼마나 될까?")
+st.write("아래 6문항에 답해 자신의 수학 능력을 점검해보세요. (1: 전혀 아니다 ~ 5: 매우 그렇다)")
 
-st.header("텍스트 요소")
-st.write("이것은 일반 텍스트입니다.")
-st.markdown("**마크다운** _스타일링_ 지원!")
+questions = [
+    "1. 수학 수업 내용을 이해하는 데 어려움이 없다.",
+    "2. 수학 문제를 읽고 핵심을 빠르게 파악할 수 있다.",
+    "3. 수학 공식이나 개념을 잘 기억하고 있다.",
+    "4. 다양한 유형의 문제를 논리적으로 해결할 수 있다.",
+    "5. 수학 공부에 흥미를 느끼고 자주 복습한다.",
+    "6. 어려운 문제도 포기하지 않고 끝까지 도전한다."
+]
 
-st.header("입력 요소")
-name = st.text_input("이름을 입력하세요:")
-age = st.number_input("나이", min_value=0, max_value=120, value=25)
-agree = st.checkbox("동의합니다")
+responses = []
+for q in questions:
+    responses.append(st.slider(q, 1, 5, 3, key=q))
 
-st.header("버튼과 상호작용")
-if st.button("인사하기"):
-    st.success(f"안녕하세요, {name or '익명'}님! 나이: {age}")
-
-st.header("슬라이더와 선택")
-level = st.slider("난이도", 1, 10, 5)
-color = st.selectbox("색상 선택", ["빨강", "초록", "파랑"])
-st.write(f"선택한 난이도: {level}, 색상: {color}")
-
-st.header("이미지와 차트")
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-st.subheader("랜덤 데이터프레임")
-df = pd.DataFrame(np.random.randn(5, 3), columns=["A", "B", "C"])
-st.dataframe(df)
-
-st.subheader("라인 차트")
-st.line_chart(df)
-
-st.subheader("matplotlib 차트")
-fig, ax = plt.subplots()
-ax.plot(df["A"], label="A")
-ax.plot(df["B"], label="B")
-ax.legend()
-st.pyplot(fig)
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+if st.button("자가진단 결과 확인"):
+    total = sum(responses)
+    avg = total / len(questions)
+    st.subheader(f"총점: {total}점 (평균: {avg:.2f})")
+    if avg >= 4.5:
+        st.success("수학 능력이 매우 우수합니다! 자신감을 가지세요.")
+    elif avg >= 3.5:
+        st.info("수학 능력이 좋은 편입니다. 꾸준히 연습하면 더 좋아질 수 있어요.")
+    elif avg >= 2.5:
+        st.warning("기본기는 있지만, 더 많은 연습이 필요합니다.")
+    else:
+        st.error("수학에 대한 흥미와 기초부터 차근차근 다져보세요!")
