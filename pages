@@ -1,0 +1,12 @@
+import streamlit as st
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
+
+# 한글 폰트 설정
+font_path = "font/NanumGothic-Regular.ttf"
+font_manager.fontManager.addfont(font_path)
+plt.rc('font', family='NanumGothic')
+
+st.title("한글 폰트 테스트")
+st.write("이 텍스트와 matplotlib 그래프의 한글이 모두 '나눔고딕' 폰트로 보입니다.")
+
